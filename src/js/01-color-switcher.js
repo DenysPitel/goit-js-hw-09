@@ -19,4 +19,3 @@ refs.startBtn.addEventListener("click", () => {
 refs.stopBtn.addEventListener("click", () => {
     clearInterval(timerId);
 });
-
