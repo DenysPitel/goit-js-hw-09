@@ -11,9 +11,6 @@ const refs = {
     valueSeconds: document.querySelector("[data-seconds]"),
 }
 
-
-// console.log(`${refs.valueDays}:${refs.valueHours}:${refs.valueMinutes}:${refs.valueSeconds}`);
-
 let date = null;
 
 const options = {
@@ -49,22 +46,24 @@ const timer = {
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
             const deltaTime = selectedTime - currentTime;
-            const { days, hours, minutes, seconds } = convertMs(deltaTime);
-            
-            console.log(`${days}:${hours}:${minutes}:${seconds}`);
+            const time = convertMs(deltaTime);
+
+            updateClockface(time);
+
+            if (deltaTime < 1000) {
+                clearInterval(this.intervalId);
+                return
+            }
         }, 1000);
     },
-    stop() {
-        setInterval(this.intervalId);
-        this.isActive = false;
-    }
 };
 
-
-// function updateClockface({ days, hours, minutes, seconds }) {
-//     refs.valueDays.textContent  = `${days}:${hours}:${minutes}:${seconds}`;
-// }
-
+function updateClockface({ days, hours, minutes, seconds }) {
+    refs.valueDays.textContent = `${days}`;
+    refs.valueHours.textContent = `${hours}`;
+    refs.valueMinutes.textContent = `${minutes}`;
+    refs.valueSeconds.textContent = `${seconds}`;
+}
 
 function addLeadingZero(value) {
     return String(value).padStart(2, '0');
@@ -85,7 +84,7 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
 }
 
+refs.onStartBtn.disabled = true;
 refs.onStartBtn.addEventListener('click', () => {
     timer.start()
 });
-
