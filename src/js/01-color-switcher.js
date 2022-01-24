@@ -7,7 +7,10 @@ const refs = {
 let timerId = null;
 
 refs.startBtn.addEventListener("click", () => {
+    
     timerId = setInterval(() => {
+        refs.startBtn.setAttribute('disabled', true);
+        refs.stopBtn.removeAttribute('disabled');
         refs.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
 
@@ -18,4 +21,6 @@ refs.startBtn.addEventListener("click", () => {
 
 refs.stopBtn.addEventListener("click", () => {
     clearInterval(timerId);
+    refs.startBtn.removeAttribute('disabled');
+    refs.stopBtn.setAttribute('disabled', true);
 });
